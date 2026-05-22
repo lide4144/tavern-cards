@@ -31,7 +31,7 @@
 
 ```yaml
 variables:                    # 待细化：取值范围和格式约束待创作阶段补充
-  - path: 林小雨.好感度
+  - path: 苏云.好感度
     type: number
 ```
 

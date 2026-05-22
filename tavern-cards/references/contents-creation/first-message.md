@@ -139,7 +139,7 @@
 
 保存到项目目录下的 `开场白/{index}.txt`（0.txt 为第一条，额外开场白为 1.txt、2.txt 等）。
 
-保存后注册到 state 文件：
+保存后立即注册到 state 文件：
 
 ```bash
 node scripts/tavern-cards-forge.mjs patch {project} '[{"op": "add", "path": "/first_messages/-", "value": "开场白/{index}.txt"}]'

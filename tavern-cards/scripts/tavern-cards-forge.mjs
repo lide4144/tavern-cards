@@ -15087,7 +15087,7 @@ Did you specify these with the most recent transformation maps first?`);
             for (let e5 = 1; e5 < s; e5++) a += "/" + n[e5];
             (!a || o && !a.endsWith("/..")) && (a += "/"), e4.path = a;
           }
-          function resolve15(e4, t3) {
+          function resolve14(e4, t3) {
             if (!e4 && !t3) return "";
             const r3 = parseUrl(e4);
             let n = r3.type;
@@ -15124,7 +15124,7 @@ Did you specify these with the most recent transformation maps first?`);
                 return r3.scheme + "//" + r3.user + r3.host + r3.port + r3.path + s;
             }
           }
-          return resolve15;
+          return resolve14;
         })();
       }, "./node_modules/.pnpm/@jridgewell+sourcemap-codec@1.5.5/node_modules/@jridgewell/sourcemap-codec/dist/sourcemap-codec.umd.js"(e2, t2, r2) {
         var n;
@@ -64113,11 +64113,11 @@ function isYaml(text) {
   }
 }
 function readStdin() {
-  return new Promise((resolve15, reject) => {
+  return new Promise((resolve14, reject) => {
     let data = "";
     process.stdin.setEncoding("utf-8");
     process.stdin.on("data", (chunk) => data += chunk);
-    process.stdin.on("end", () => resolve15(data));
+    process.stdin.on("end", () => resolve14(data));
     process.stdin.on("error", reject);
   });
 }
@@ -71589,7 +71589,10 @@ function registerConfigure(program3, exitOnError2) {
 import { dirname as dirname9 } from "path";
 import { existsSync as existsSync6, mkdirSync as mkdirSync6 } from "fs";
 function registerInit(program3, exitOnError2) {
-  program3.command("init").description("Initialize state.json with defaults from .cardrc.json").argument("<project>", "Project name from .cardrc.json, or any placeholder when --state is provided").option("--state <path>", "Override state.json path and skip project lookup").action(exitOnError2(async (project, opts) => {
+  program3.command("init").description("Initialize state.json with defaults from .cardrc.json").argument("<project>", "Project name from .cardrc.json, or any placeholder when --state is provided").option("--state <path>", "Override state.json path and skip project lookup").option("--worldbook", "Set form to worldbook instead of charactercard").option("--mvu", "Enable MVU mode").action(exitOnError2(async (project, opts) => {
+    if (opts.worldbook && opts.mvu) {
+      throw new Error("--worldbook and --mvu cannot be used together because worldbook state cannot enable MVU.");
+    }
     const { cardrc, statePath } = resolveProject(project, opts);
     const stateDir = dirname9(statePath);
     if (!existsSync6(stateDir)) {
@@ -71603,8 +71606,8 @@ function registerInit(program3, exitOnError2) {
       state = detailedParse(TavernCardsState, {
         projectName: project,
         worldbookName: project,
-        form: "charactercard",
-        mvu: false,
+        form: opts.worldbook ? "worldbook" : "charactercard",
+        mvu: opts.mvu ?? false,
         entryManifest: {},
         typeLists: cardrc.default_type_lists,
         strategyThresholds: cardrc.default_strategy_thresholds,
@@ -71625,6 +71628,13 @@ function registerInit(program3, exitOnError2) {
     state.strategyThresholds = cardrc.default_strategy_thresholds;
     state.partOrder = cardrc.default_part_order;
     state.depth_defaults = cardrc.depth_defaults;
+    if (opts.worldbook) {
+      state.form = "worldbook";
+      state.mvu = false;
+    } else if (opts.mvu) {
+      state.form = "charactercard";
+      state.mvu = true;
+    }
     if (!state.projectName) {
       state.projectName = project;
     }
@@ -71637,7 +71647,7 @@ function registerInit(program3, exitOnError2) {
 }
 
 // src/cli/command/validate-mvu.ts
-import { resolve as resolve14, dirname as dirname10 } from "path";
+import { resolve as resolve13, dirname as dirname10 } from "path";
 import { existsSync as existsSync7 } from "fs";
 
 // node_modules/jiti/lib/jiti-static.mjs
@@ -71670,8 +71680,8 @@ function registerValidateMvu(program3, exitOnError2) {
     if (!state.mvu) {
       throw new Error("\u9879\u76EE\u672A\u542F\u7528 MVU\uFF08tavern-cards-state.json \u4E2D mvu \u4E0D\u4E3A true\uFF09");
     }
-    const schemaPath = resolve14(projectDir, "schema.ts");
-    const initvarPath = resolve14(projectDir, "\u4E16\u754C\u4E66/\u53D8\u91CF/initvar.yaml");
+    const schemaPath = resolve13(projectDir, "schema.ts");
+    const initvarPath = resolve13(projectDir, "\u4E16\u754C\u4E66/\u53D8\u91CF/initvar.yaml");
     if (!existsSync7(schemaPath)) {
       throw new Error(`schema.ts \u4E0D\u5B58\u5728: ${schemaPath}`);
     }

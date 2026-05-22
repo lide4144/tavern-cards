@@ -45,9 +45,12 @@
 }
 ```
 
-3. 运行 `node scripts/tavern-cards-forge.mjs init {project}`：自动创建项目目录和 `tavern-cards-state.json`，从 `.cardrc.json` 读取默认值写入 state（typeLists、strategyThresholds、partOrder、depth_defaults）。projectName 仅空时设置，create_date 仅空时设为当前时间
-4. 在 `tavern-cards-state.json` 中补充项目属性（form、mvu 等）
-5. 在 entryManifest 中预建类型 key（空对象，不添加条目）：
+3. 运行 `node scripts/tavern-cards-forge.mjs init {project}`：自动创建项目目录和 `tavern-cards-state.json`，从 `.cardrc.json` 读取默认值写入 state（typeLists、strategyThresholds、partOrder、depth_defaults）。projectName 仅空时设置，create_date 仅空时设为当前时间。根据项目属性收集结果附加选项：
+   - 独立世界书 → 加 `--worldbook`（自动设置 `form: "worldbook"`, `mvu: false`）
+   - 角色卡 + 需要 MVU → 加 `--mvu`（自动设置 `form: "charactercard"`, `mvu: true`）
+   - 角色卡 + 不需要 MVU → 无选项即可（默认 `form: "charactercard"`, `mvu: false`）
+   - `--worldbook` 和 `--mvu` 不能同时使用
+4. 在 entryManifest 中预建类型 key（空对象，不添加条目）：
 
 ```json
 {
@@ -81,72 +84,55 @@
 
 ## typeLists 默认配置
 
-```yaml
-before_char: [EJS预处理, 世界观, 扮演准则, 时间线, 地理]
-after_char: [角色, NPC]
-depth: [事件, MVU]
+```json
+{
+  "before_char": ["EJS预处理", "世界观", "扮演准则", "时间线", "地理"],
+  "after_char": ["角色", "NPC"],
+  "depth": ["事件", "MVU"]
+}
 ```
 
 固定玩法阶段项目可调整为：
 
-```yaml
-typeLists:
-  before_char: [EJS预处理, 世界观, 扮演准则, 时间线, 地理]
-  after_char: [角色, NPC]
-  depth: [阶段指导, 事件, MVU]
-strategyThresholds:
-  世界观: Infinity
-  扮演准则: Infinity
-  时间线:
-    history:
-      required: false
-      threshold: Infinity
-    plot:
-      required: false
-      threshold: Infinity
-  地理:
-    region:
-      required: false
-      threshold: 4
-    scene:
-      required: false
-      threshold: 4
-    faction:
-      required: false
-      threshold: 4
-  角色:
-    basic:
-      required: true
-      threshold: 5
-    personality:
-      required: true
-      threshold: 2
-    tri_faceted:
-      required: false
-      threshold: 2
-    other:
-      required: false
-      threshold: 2
-  NPC: 0
-  阶段指导: Infinity
-  事件: 0
-  MVU:
-    variable_list:
-      required: false
-      threshold: Infinity
-    update_rules:
-      required: false
-      threshold: Infinity
-    output_format:
-      required: false
-      threshold: Infinity
-    initvar:
-      required: false
-      threshold: null
-  EJS预处理: Infinity
+```json
+{
+  "typeLists": {
+    "before_char": ["EJS预处理", "世界观", "扮演准则", "时间线", "地理"],
+    "after_char": ["角色", "NPC"],
+    "depth": ["阶段指导", "事件", "MVU"]
+  },
+  "strategyThresholds": {
+    "世界观": "Infinity",
+    "扮演准则": "Infinity",
+    "时间线": {
+      "history": { "required": false, "threshold": "Infinity" },
+      "plot": { "required": false, "threshold": "Infinity" }
+    },
+    "地理": {
+      "region": { "required": false, "threshold": 4 },
+      "scene": { "required": false, "threshold": 4 },
+      "faction": { "required": false, "threshold": 4 }
+    },
+    "角色": {
+      "basic": { "required": true, "threshold": 5 },
+      "personality": { "required": true, "threshold": 2 },
+      "tri_faceted": { "required": false, "threshold": 2 },
+      "other": { "required": false, "threshold": 2 }
+    },
+    "NPC": 0,
+    "阶段指导": "Infinity",
+    "事件": 0,
+    "MVU": {
+      "variable_list": { "required": false, "threshold": "Infinity" },
+      "update_rules": { "required": false, "threshold": "Infinity" },
+      "output_format": { "required": false, "threshold": "Infinity" },
+      "initvar": { "required": false, "threshold": null }
+    },
+    "EJS预处理": "Infinity"
+  }
 ```
 
-`阶段指导` 通常是总指导条目，必须常驻后由 EJS 段落控制当前阶段内容，因此 strategyThresholds 设为 `Infinity`。
+`阶段指导` 通常是总指导条目，必须常驻后由 EJS 段落控制当前阶段内容，因此 strategyThresholds 设为 `"Infinity"`。
 
 如果项目属性收集时确认了调整，使用调整后的值。
 

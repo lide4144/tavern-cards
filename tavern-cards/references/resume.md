@@ -6,36 +6,46 @@
 
 1. **检测环境**：查找 `.cardrc.json`，确认工作区。未找到则提醒用户
 2. **读取编写规划文档**（`创作规划.yaml`）
-3. **按顺序检查四部分进度**：条目 → MVU → EJS → 开场白
-4. **向用户展示进度概要**，确认从哪个部分/条目继续
-5. **继续创作流程**
-
-进度判断需同时参考 `tavern-cards-state.json` 的 entryManifest 和 `创作规划.yaml`。EJS 相关信息仅存于创作规划文档。
+3. **批量查询进度**：用命令一次性获取所有已注册条目的摘要和状态
+4. **对比规划与注册**：将 entryManifest 中已有条目与 `创作规划.yaml` 对比，确定未完成条目
+5. **向用户展示进度概要**，确认从哪个部分/条目继续
+6. **继续创作流程**
 
 ## 使用 forge CLI
 
 查询项目状态：
 
 ```bash
-node scripts/tavern-cards-forge.mjs query {project} '$.mvu' '$.form' '$.characters'
-node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest.*~'           # 已有条目的类型列表
-node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest[*][*]'        # 所有条目的完整信息
+# 项目属性
+node scripts/tavern-cards-forge.mjs query {project} '$.mvu' '$.form'
+
+# 获取所有已注册条目的名称（类型+条目名）
+node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest.*~' --format yaml
+
+# 批量获取所有条目的摘要
+node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest[*][*].abstract' --format yaml
 ```
 
 `query` 返回 JSON 到 stdout，用 `--format yaml` 可获取 YAML 输出。
 
+建议在向用户展示进度时，将条目名称与摘要组合为易读的列表，例如：
+
+```
+已完成条目：
+  世界观/世界设定：世界规则和物理法则的宏观框架
+  地理/华东区：包含上海、杭州、南京等主要城市
+  角色/苏云_基础信息：19岁修仙协会华东分部见习执法者
+未完成条目：
+  角色/苏云_性格调色盘
+  NPC/王老师
+```
+
 ## 判断条目完成状态
 
-对 `创作规划.yaml` 的 `entries` 数组中每个条目，按数组顺序判断：
+批量获取 entryManifest 中所有条目信息后，与 `创作规划.yaml` 的 `entries` 数组对照：
 
 - entryManifest 中存在该条目 → 已完成，跳过
 - entryManifest 中不存在该条目 → 未完成，从此条目继续
-
-```bash
-# 检查某个条目是否已注册
-node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest.{类型}.{条目名}'
-# 返回 null 表示未注册
-```
 
 文件存在但不被 entryManifest 引用的情况：
 - 该条目在 `创作规划.yaml` 的 entries 中 → 编写未完成（内容已写但未注册），继续编写并注册
@@ -83,8 +93,9 @@ node scripts/tavern-cards-forge.mjs query {project} '$.form'
 如果没有编写规划文档（旧项目或手动创建的项目），通过以下命令推断项目状态：
 
 ```bash
-node scripts/tavern-cards-forge.mjs query {project} '$.form' '$.mvu' '$.characters'
+node scripts/tavern-cards-forge.mjs query {project} '$.form' '$.mvu'
 node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest.*~' --format yaml
+node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest[*][*].abstract' --format yaml
 ```
 
 向用户展示已有条目列表和项目属性，确认后继续。
