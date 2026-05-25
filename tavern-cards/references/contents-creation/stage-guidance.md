@@ -60,7 +60,7 @@ battle_phase:
 ## EJS 要求
 
 - 条目必须使用条件渲染，见 `references/ejs/guide.md` 的“段落控制（条件渲染）”。
-- 条件中引用的阶段变量必须在 `EJS预处理` 条目中通过 `define()` 注册。
+- 条件中引用的阶段变量必须在 `EJS预处理` 条目中通过 `define()` 注册，该条目使用 `@@generate_before` 装饰器。
 - state 中该条目的 `ejs.mode` 为 `conditional`，`condition` 为空字符串。
 
 ## 常见错误
@@ -75,7 +75,7 @@ battle_phase:
 
 - [ ] 条目类型为 `阶段指导`
 - [ ] 使用 EJS 条件渲染，只输出当前阶段内容
-- [ ] 阶段变量已在 EJS预处理中 define()
+- [ ] 阶段变量已在 EJS预处理 中 define()，条目使用 @@generate_before
 - [ ] 每个阶段都有 goal / narration_focus / interaction / progression_boundary
 - [ ] 没有写成固定剧情大纲或单次事件
 - [ ] 没有替 <user> 决定行动、台词、心理

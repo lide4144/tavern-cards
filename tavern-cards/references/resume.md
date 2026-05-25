@@ -98,4 +98,11 @@ node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest.*~' --forma
 node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest[*][*].abstract' --format yaml
 ```
 
-向用户展示已有条目列表和项目属性，确认后继续。
+向用户展示已有条目列表和项目属性。确认后，根据缺失项确定下一步：
+
+- 有编写规划文档但条目未全部注册 → 读取 `references/composition.md`，按 `entries` 顺序从首个未注册条目继续创作
+- 条目已全部注册但 MVU 未完成（`mvu: true` 时）→ 读取 `references/mvu/guide.md`，从缺失的核心文件继续
+- MVU 完成但 EJS 未完成 → 读取 `references/ejs/guide.md`，从 EJS预处理 注册或 EJS 条目处理继续
+- EJS 完成但未运行 configure → 执行 `node scripts/tavern-cards-forge.mjs configure {project}`
+- configure 完成但无开场白（`form: charactercard` 时）→ 读取 `references/contents-creation/first-message.md`
+- 以上均完成 → 执行 `node scripts/tavern-cards-forge.mjs pack {project}` 打包输出

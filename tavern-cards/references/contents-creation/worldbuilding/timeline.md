@@ -45,7 +45,7 @@
 变量 `current_chapter` 在 EJS预处理 条目中通过 `define()` 注册：
 
 ```
-@@preprocessing
+@@generate_before
 <%_
 define('current_chapter', getvar('stat_data.世界.当前章节', { defaults: '第1章' }));
 _%>

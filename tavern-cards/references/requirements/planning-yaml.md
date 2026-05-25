@@ -161,7 +161,7 @@ mvu:                             # 可选段落，project.mvu=true 时出现
       type: z.record
 
 ejs:                             # 可选段落，有 EJS 需求时出现
-  preprocessing:                 # 待细化：粗略规划时可省略，创作阶段推导变量映射
+  generate_before:               # 待细化：粗略规划时可省略，创作阶段推导变量映射
     - name: current_location
       variable: 世界.当前区域    # MVU 变量路径，不加 stat_data 前缀
     - name: affection

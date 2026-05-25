@@ -139,6 +139,6 @@ MVU 和 EJS 编写完成后，检查 MVU 变量系统与已编写世界书条目
 加载 `references/ejs/guide.md`，检查：
 
 - 所有 `ejs.entries` 中 `condition` 引用的变量名，是否已在 EJS预处理 条目中通过 `define()` 注册
-- EJS预处理 的变量映射是否完整覆盖所有 EJS 条目（包括 `ejs.preprocessing` 定义的映射和 `ejs.entries` 条件中使用的变量）
+- EJS预处理 的变量映射是否完整覆盖所有 EJS 条目（包括 `ejs.generate_before` 定义的映射和 `ejs.entries` 条件中使用的变量）
 - 对照 schema.ts，确认每个 EJS 条件使用的变量都在 schema 中有定义
 - 未定义的变量需要返回 MVU 流程补全 schema.ts 和 EJS预处理
