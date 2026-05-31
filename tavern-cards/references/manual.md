@@ -213,8 +213,16 @@ node scripts/tavern-cards-forge.mjs configure {project} --force
 从 `.cardrc.json` 读取默认配置写入 state.json（不存在时自动创建）。
 
 ```
-node scripts/tavern-cards-forge.mjs init <project> [--state <path>]
+node scripts/tavern-cards-forge.mjs init <project> [--state <path>] [--worldbook] [--mvu]
 ```
+
+| 选项 | 说明 |
+|------|------|
+| `--state <path>` | 直接指定 state.json 路径（跳过项目查找） |
+| `--worldbook` | 创建或更新为独立世界书项目（`form: "worldbook"`, `mvu: false`） |
+| `--mvu` | 创建或更新为 MVU 角色卡项目（`form: "charactercard"`, `mvu: true`） |
+
+`--worldbook` 和 `--mvu` 不能同时使用，因为 worldbook 项目不允许启用 MVU。两者都不提供时，新建 state 默认使用 `form: "charactercard"`、`mvu: false`；更新已有 state 时不改变现有的 `form` / `mvu`。
 
 覆盖：`typeLists`、`strategyThresholds`、`partOrder`、`depth_defaults`。`projectName` 和 `create_date` 仅在为空时设置。
 
@@ -389,7 +397,6 @@ echo '[{"op":"remove","path":"/entryManifest/region/废弃地点"}]' | node scri
   tavern-cards-state.json
   avatar.png                     # 仅角色卡 PNG 项目
   schema.ts                      # 仅 MVU 项目
-  world.bin                      # pack 生成，角色卡缓存
   {project}.png                  # 打包产物（角色卡 PNG）
   {project}.json                 # 打包产物（角色卡 JSON/独立世界书）
   世界书/
