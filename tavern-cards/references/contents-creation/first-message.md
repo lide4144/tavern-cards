@@ -147,7 +147,6 @@ node scripts/tavern-cards-forge.mjs patch {project} '[{"op": "add", "path": "/fi
 
 额外开场白需在消息内容末尾嵌入 `<UpdateVariable><initvar>` 块设置对应的初始变量值。
 
-叙事式开场白的描写只需遵守 `references/rules.md` 中的八股化检查，其余规则不适用于叙事文本。
 
 ## 自查清单
 
@@ -157,6 +156,7 @@ node scripts/tavern-cards-forge.mjs patch {project} '[{"op": "add", "path": "/fi
 - [ ] 叙事式：结尾留出了互动点，<user> 有明确的事可回应
 - [ ] 叙事式：没有替 <user> 做决定、说话、或预设行动
 - [ ] 叙事式：检查字数是否符合要求
+- [ ] 叙事式：调用 check-agent 时，传递条目规划路径或具体文风要求
 - [ ] 大纲式：只根据用户提供的信息整理，没有自己编造内容
 - [ ] MVU 项目：叙述中的状态与 initvar.yaml 一致
 - [ ] 额外开场白：需要不同变量值时已嵌入 `<UpdateVariable><initvar>` 块

@@ -71,9 +71,16 @@ references/
 ├── requirements.md              —— 需求对齐 + 创作规划.yaml schema
 ├── composition.md               —— 条目编排、创作循环、DoubleCheck
 ├── rules.md                     —— 正面写作规则（前置必读）
-├── rules-check.md               —— 禁词检查清单（子代理使用）
+├── error-handling.md            —— 错误处理流程（转化/创作/技术阶段）
 ├── conventions.md               —— 注册约定与文件格式（前置必读）
-├── conversion.md                —— 从材料转化流程
+├── conversion.md                —— 从材料转化流程（主文档）
+├── conversion/
+│   ├── outline-spec.md          —— 大纲规范（信息分类含factions、记录原则、行号规范）
+│   ├── outline.md               —— 大纲构建指导（长文本处理、分级模板、整理深化含分卷检测）
+│   ├── validation.md            —— 转化大纲验证脚本使用说明（validate-conversion-outline.mjs）
+│   ├── assessment.md            —— 材料类型评估标准
+│   ├── source-chapters.md       —— source_chapters 标注标准
+│   └── key-info.md              —— 关键信息确认流程
 ├── project-setup.md             —— 项目创建
 ├── resume.md                    —— 断点续接
 ├── configuration.md             —— 条目运行时配置（仅特殊需求时读取）
@@ -115,3 +122,4 @@ references/
     ├── state.ts                 —— 状态文件类型定义（按需查阅）
     └── settings.ts              —— .cardrc.json 类型定义（按需查阅）
 ```
+

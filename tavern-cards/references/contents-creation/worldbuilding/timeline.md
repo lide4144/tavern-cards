@@ -30,6 +30,8 @@
 
 剧情条目通常需要条件显隐（仅当剧情推进到对应章节时激活），通过 `@@if` 控制。具体条件表达式取决于项目的变量设计，在规划文档的 `ejs.entries` 中指定。
 
+#### 按章节分割
+
 假设项目使用 `当前章节` 变量追踪剧情进度（对应 MVU 的 `世界.当前章节`），plot 条目按章节分割时，通过 `@@if` 控制显隐：
 
 ```json
@@ -57,9 +59,35 @@ _%>
 @@if current_chapter === '第3章' && current_location?.includes('秘境')
 ```
 
+#### 按时间分割
+
+假设项目 MVU 中 `世界.当前时间` 格式为 `YYYY-MM-DD`（如 `2651-05-01`），在 EJS预处理 条目中截取年份转为 `currentYear` 变量：
+
+```
+@@generate_before
+<%_
+const currentTime = getvar('stat_data.世界.当前时间', { defaults: '2637-06-18' });
+define('currentYear', parseInt(currentTime.split('-')[0]));
+_%>
+```
+
+然后在 plot 条目中通过年份区间控制显隐：
+
+```json
+{
+  "name": "海神岛篇",
+  "contents": [
+    { "content": "@@if currentYear >= 2651 && currentYear < 2655" },
+    { "file": "世界书/时间线/海神岛篇.yaml" }
+  ]
+}
+```
+
+**注意**：具体按年份还是更细粒度的时间区间，取决于原著剧情的时间紧凑程度，需自行判断。
+
 ## 压缩规则
 
-同 `references/contents-creation/worldbuilding/worldview.md` 的压缩检查。
+按 `references/rules.md` 的世界观压缩原则逐句检查。
 
 ## 自查清单
 

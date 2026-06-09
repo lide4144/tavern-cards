@@ -28,6 +28,7 @@
 
 - 任一支持 skill 的 Coding Agent
 - Node.js（用于 CLI 工具）
+- 确保你的 Agent 已配置正确的 API（如 Anthropic API Key）
 
 ## 安装
 
@@ -35,8 +36,29 @@
 2. 根据你使用的 Agent，将 `tavern-cards/` 目录放入对应位置：
    - Claude Code: 放入 `.claude/skills/` 目录
    - Opencode: 放入 `.opencode/skills/` 或 `.agents/skills/` 目录
+   - Pi: 放入 `.pi/skills/` 或 `.agents/skills/` 目录
    - 其他 Agent: 放入 Agent 指定的 skill 目录
-3. 当你提到"角色卡"、"世界书"、"SillyTavern"等关键词时，skill 会自动触发
+3. 配置子代理（用于长文本处理和禁词扫描）：
+   - 将 `tavern-cards/agents/*.md` 文件链接到你的 Coding Agent 的 agents 目录。
+     - Claude Code: 
+       - Linux/macOS: `~/.claude/agents`
+       - Windows: `%USERPROFILE%\.claude\agents`
+     - Opencode:
+       - Linux/macOS: `~/.opencode/agents`
+       - Windows: `%USERPROFILE%\.opencode\agents`
+     - Pi:
+       - Linux/macOS: `~/.pi/agent/agents/`
+       - Windows: `%USERPROFILE%\.pi\agent\agents\`
+     - 其他 Agent: 创建到 Agent 指定的 agents 目录
+4. 重启或 reload 你的 Coding Agent（不同软件叫法可能不同，如 Claude Code 使用 `/reload-plugins` 命令）
+5. 测试子代理是否配置成功：
+   ```
+   请 check-agent 检查以下内容："她非常善良，心湖泛起涟漪。"
+   ```
+   如果返回禁词检查结果，说明配置成功
+6. 正式使用 skill 时，建议开一个新会话，避免上下文干扰
+
+当你提到"角色卡"、"世界书"、"SillyTavern"等关键词时，skill 会自动触发
 
 ## 许可
 
