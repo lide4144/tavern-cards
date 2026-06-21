@@ -65,11 +65,12 @@ MVU 条目名称使用前缀标记功能定位和双 AI 发送路由，详见 `r
 然后将 `schema.ts` 的内容内联到 `脚本/Zod.txt`，替换 `// SCHEMA_CONTENT` 占位行：
 
 ```bash
-sed -i -e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}' -e '/^export type/d' 脚本/Zod.txt
+sed -e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}' assets/mvu-templates/脚本/Zod.txt | sed '/^export type/d' > 脚本/Zod.txt
 ```
 
-- `-e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}'`：将 `// SCHEMA_CONTENT` 行替换为 schema.ts 的内容
-- `-e '/^export type/d'`：移除 TypeScript 的 `export type` 行（SillyTavern 不支持）
+- 前半段（第一个 `sed`）：将 `// SCHEMA_CONTENT` 行替换为 schema.ts 的内容
+- 后半段（`| sed '/^export type/d'`）：移除 TypeScript 的 `export type` 行（SillyTavern 不支持）
+- 改用管道而非 `-i`，因为 GNU sed 的 `r` 命令输出不会经后续 `-e` 表达式处理
 
 ### 2. 应用 JSON Patch 合并配置
 
@@ -162,7 +163,7 @@ MVU 和 EJS 编写完成后，检查 MVU 变量系统与已编写世界书条目
 
 > Zod.txt 需重新内联：修改 schema.ts 后，从资产模板重新生成 `脚本/Zod.txt`：
 > ```bash
-> sed -e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}' -e '/^export type/d' {skill_dir}/assets/mvu-templates/脚本/Zod.txt > 脚本/Zod.txt
+> sed -e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}' {skill_dir}/assets/mvu-templates/脚本/Zod.txt | sed '/^export type/d' > 脚本/Zod.txt
 > ```
 >
 > `{skill_dir}` 为 tavern-cards skill 的安装路径，需替换为实际路径。
@@ -172,7 +173,12 @@ MVU 和 EJS 编写完成后，检查 MVU 变量系统与已编写世界书条目
 内联完成后，可用以下命令检查 schema.ts 与 Zod.txt 是否同步：
 
 ```bash
-diff <(sed -e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}' -e '/^export type/d' {skill_dir}/assets/mvu-templates/脚本/Zod.txt) 脚本/Zod.txt && echo '✓ 同步' || echo '✗ 未同步'
+if ! diff -u <(sed -e '/\/\/ SCHEMA_CONTENT/{r schema.ts' -e 'd}' {skill_dir}/assets/mvu-templates/脚本/Zod.txt | sed '/^export type/d') 脚本/Zod.txt; then
+  echo '✗ 未同步（见上方 diff）'
+  exit 1
+else
+  echo '✓ 同步'
+fi
 ```
 
 原理：从干净模板重新注入当前的 schema.ts 得到期望内容，与实际 Zod.txt 逐行比较。无差异即同步。此命令在项目目录下执行。`{skill_dir}` 为 tavern-cards skill 的安装路径，需替换为实际路径。

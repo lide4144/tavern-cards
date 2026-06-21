@@ -40,4 +40,5 @@ export type Schema = z.output<typeof Schema>;
 - [ ] 没有滥用 `.optional()`（根字段不用）
 - [ ] 使用 `z.coerce.number()` 而非 `z.number()`
 - [ ] transform 用 `_.clamp` 而非 `min/max`
+- [ ] 使用 `.prefault()` 而非 `.default()`
 - [ ] 保持幂等
