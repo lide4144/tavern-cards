@@ -28,7 +28,7 @@
 
 - 任一支持 skill 的 Coding Agent
 - Node.js（用于 CLI 工具）
-- **Windows 用户**：强烈建议在 **Git Bash**（Git for Windows 自带）中启动 Agent，不建议在 PowerShell 或 cmd 中启动。项目的 bash 命令（`sed`、`diff`、管道等）依赖 Git Bash 环境，PowerShell 无法兼容。
+- Windows 用户: 强烈建议安装 **Git for Windows**（自带 Git Bash）中启动 Agent。项目的 bash 命令（`sed`、`diff`、管道等）依赖 bash 环境。
 - 确保你的 Agent 已配置正确的 API（如 Anthropic API Key）
 
 ## 安装
