@@ -38,45 +38,28 @@
 {
   "name": "第3章_秘境探险",
   "contents": [
-    { "content": "@@if current_chapter === '第3章'" },
+    { "content": "@@if getvar('stat_data.世界.当前章节', {defaults:'第1章'}) === '第3章'" },
     { "file": "世界书/时间线/第3章_秘境探险.yaml" }
   ]
 }
 ```
 
-变量 `current_chapter` 在 EJS预处理 条目中通过 `define()` 注册：
-
-```
-@@generate_before
-<%_
-define('current_chapter', getvar('stat_data.世界.当前章节', { defaults: '第1章' }));
-_%>
-```
-
 如果剧情分支涉及多个条件，也可以组合使用：
 
 ```
-@@if current_chapter === '第3章' && current_location?.includes('秘境')
+@@if getvar('stat_data.世界.当前章节', {defaults:'第1章'}) === '第3章' && getvar('stat_data.世界.当前区域', {defaults:''}).includes('秘境')
 ```
 
 #### 按时间分割
 
-假设项目 MVU 中 `世界.当前时间` 格式为 `YYYY-MM-DD`（如 `2651-05-01`），在 EJS预处理 条目中截取年份转为 `currentYear` 变量：
-
-```
-@@generate_before
-<%_
-const currentTime = getvar('stat_data.世界.当前时间', { defaults: '2637-06-18' });
-define('currentYear', parseInt(currentTime.split('-')[0]));
-_%>
-```
-
-然后在 plot 条目中通过年份区间控制显隐：
+假设项目 MVU 中 `世界.当前时间` 格式为 `YYYY-MM-DD`（如 `2651-05-01`），在 plot 条目内用 `@@private` + `const` 计算年份：
 
 ```json
 {
   "name": "海神岛篇",
   "contents": [
+    { "content": "@@private" },
+    { "content": "<%_ const currentYear = parseInt(getvar('stat_data.世界.当前时间', { defaults: '2637-06-18' }).split('-')[0]); _%>" },
     { "content": "@@if currentYear >= 2651 && currentYear < 2655" },
     { "file": "世界书/时间线/海神岛篇.yaml" }
   ]

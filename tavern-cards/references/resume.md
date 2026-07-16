@@ -75,10 +75,9 @@ node scripts/tavern-cards-forge.mjs query {project} '$.mvu'
 
 | 检查项 | 命令 | 完成条件 |
 |---|---|---|
-| EJS预处理 注册 | `query {project} '$.entryManifest.EJS预处理'` | EJS预处理 类型条目存在 |
 | 各 EJS 条目已处理 | — | 创作规划文档 ejs.entries 中每条，entryManifest 对应条目的 `contents` 首片段以 `@@if ` 开头，或对应内容文件正确使用 EJS 语句 |
 
-两项都满足 → EJS 完成。否则从第一个缺失项继续。
+该项满足 → EJS 完成。否则从第一个缺失项继续。
 
 ## 判断开场白完成状态（project.form: charactercard 时）
 
@@ -104,7 +103,7 @@ node scripts/tavern-cards-forge.mjs query {project} '$.entryManifest[*][*].abstr
 
 - 有编写规划文档但条目未全部注册 → 读取 `references/composition.md`，按 `entries` 顺序从首个未注册条目继续创作
 - 条目已全部注册但 MVU 未完成（`mvu: true` 时）→ 读取 `references/mvu/guide.md`，从缺失的核心文件继续
-- MVU 完成但 EJS 未完成 → 读取 `references/ejs/guide.md`，从 EJS预处理 注册或 EJS 条目处理继续
+- MVU 完成但 EJS 未完成 → 读取 `references/ejs/guide.md`，检查所有 EJS 条目的 @@if 条件与段落控制是否以 getvar('stat_data.xxx',{defaults}) 读取变量、MVU 路径是否带 stat_data. 前缀，补全未处理条目
 - EJS 完成但未运行 configure → 执行 `node scripts/tavern-cards-forge.mjs configure {project}`
 - configure 完成但无开场白（`form: charactercard` 时）→ 读取 `references/contents-creation/first-message.md`
 - 以上均完成 → 执行 `node scripts/tavern-cards-forge.mjs pack {project}` 打包输出

@@ -25,7 +25,7 @@
 
 ### typeLists 调整
 
-默认配置见下文。根据 `references/requirements/entry-types.md` 的条目类型说明和项目实际需求，确认默认配置是否需要调整。如需增添新条目类型，遵照从宏观到微观、从固定到动态的原则插入合适位置。不使用 MVU 和 EJS 时，`EJS预处理` 和 `MVU` 不需要出现在列表中。有固定玩法阶段时，可加入 `阶段指导`，且必须同时使用 EJS 控制。
+默认配置见下文。根据 `references/requirements/entry-types.md` 的条目类型说明和项目实际需求，确认默认配置是否需要调整。如需增添新条目类型，遵照从宏观到微观、从固定到动态的原则插入合适位置。不使用 MVU 时，`MVU` 不需要出现在列表中；EJS 条目内联 getvar，无需独立列表项。有固定玩法阶段时，可加入 `阶段指导`，且必须同时使用 EJS 控制。
 
 调整 typeLists 时，必须同步调整 strategyThresholds。configure 只会为出现在 strategyThresholds 中的类型推导 strategy；字段含义见 `references/configuration.md`。
 
@@ -86,7 +86,7 @@
 
 ```json
 {
-  "before_char": ["EJS预处理", "世界观", "扮演准则", "时间线", "地理"],
+  "before_char": ["世界观", "扮演准则", "时间线", "地理"],
   "after_char": ["角色", "NPC"],
   "depth": ["事件", "MVU"]
 }
@@ -97,7 +97,7 @@
 ```json
 {
   "typeLists": {
-    "before_char": ["EJS预处理", "世界观", "扮演准则", "时间线", "地理"],
+    "before_char": ["世界观", "扮演准则", "时间线", "地理"],
     "after_char": ["角色", "NPC"],
     "depth": ["阶段指导", "事件", "MVU"]
   },
@@ -127,8 +127,7 @@
       "update_rules": { "required": false, "threshold": "Infinity" },
       "output_format": { "required": false, "threshold": "Infinity" },
       "initvar": { "required": false, "threshold": null }
-    },
-    "EJS预处理": "Infinity"
+    }
   }
 ```
 

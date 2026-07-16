@@ -161,26 +161,21 @@ mvu:                             # 可选段落，project.mvu=true 时出现
       type: z.record
 
 ejs:                             # 可选段落，有 EJS 需求时出现
-  generate_before:               # 待细化：粗略规划时可省略，创作阶段推导变量映射
-    - name: current_location
-      variable: 世界.当前区域    # MVU 变量路径，不加 stat_data 前缀
-    - name: affection
-      variable: 苏云.好感度
   entries:
     - name: 华东区
       complexity: 条目显隐
-      condition: "current_location?.includes('华东区')"
+      condition: "getvar('stat_data.世界.当前区域', { defaults: '' }).includes('华东区')"
     - name: 苏云_性格调色盘
       complexity: 段落控制
       stages:                        # 多阶段调色盘的阶段判定条件，与 characters 中 stages 一一对应
         - name: 初识期
-          condition: affection < 10
+          condition: "getvar('stat_data.苏云.好感度', { defaults: 0 }) < 10"
         - name: 熟悉期
-          condition: affection >= 10 && affection < 30
+          condition: "getvar('stat_data.苏云.好感度', { defaults: 0 }) >= 10 && getvar('stat_data.苏云.好感度', { defaults: 0 }) < 30"
         - name: 亲密期
-          condition: affection >= 30 && affection < 60
+          condition: "getvar('stat_data.苏云.好感度', { defaults: 0 }) >= 30 && getvar('stat_data.苏云.好感度', { defaults: 0 }) < 60"
         - name: 深爱期
-          condition: affection >= 60
+          condition: "getvar('stat_data.苏云.好感度', { defaults: 0 }) >= 60"
 
 first_messages:                  # 可选段落，角色卡时出现；数组顺序对应 state.first_messages
   - format: 叙事式

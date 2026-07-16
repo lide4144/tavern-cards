@@ -6,10 +6,9 @@
 
 `世界书/` 下按条目类型组织目录结构：
 
-- 按类型名建一级子目录（`世界观/`、`地理/`、`角色/`、`NPC/`、`时间线/`、`EJS/`、`变量/` 等）
+- 按类型名建一级子目录（`世界观/`、`地理/`、`角色/`、`NPC/`、`时间线/`、`变量/` 等）
 - 角色条目按角色名建二级子目录（如 `角色/苏云/基础信息.yaml`）
 - MVU 变量相关文件放在 `变量/` 下
-- EJS 文件放在 `EJS/` 下
 - 非世界书内容放在同级目录：`正则/`（替换文件）、`脚本/`（TavernHelper 脚本）、`开场白/`（first_messages）
 - 项目根目录：`schema.ts`（仅 MVU 项目，变量类型定义）、`avatar.png`（仅角色卡有头像时）
 
@@ -34,8 +33,6 @@
       基础信息.yaml
   时间线/
     历史事件.yaml
-  EJS/
-    EJS预处理.txt
   变量/
     initvar.yaml
     变量更新规则.yaml
@@ -211,7 +208,7 @@ node scripts/tavern-cards-forge.mjs patch {project} '[{"op":"add","path":"/entry
 2. 执行命令（`contents` 首片段嵌入 `@@if`）：
 
 ```bash
-node scripts/tavern-cards-forge.mjs patch {project} '[{"op":"add","path":"/entryManifest/地理/华东区","value":{"part":"region","scope":"specific","abstract":"华东区：包含上海、杭州、南京等主要城市","contents":[{"content":"@@if current_location?.includes(\"华东区\")"},{"content":"---\n<region region=\"华东区\">"},{"file":"世界书/地理/华东区.yaml"},{"content":"</region>"}],"keywords":["华东区","华东"]}}]'
+node scripts/tavern-cards-forge.mjs patch {project} '[{"op":"add","path":"/entryManifest/地理/华东区","value":{"part":"region","scope":"specific","abstract":"华东区：包含上海、杭州、南京等主要城市","contents":[{"content":"@@if getvar(\"stat_data.世界.当前区域\", { defaults: \"\" }).includes(\"华东区\")"},{"content":"---\n<region region=\"华东区\">"},{"file":"世界书/地理/华东区.yaml"},{"content":"</region>"}],"keywords":["华东区","华东"]}}]'
 ```
 
 EJS 条件来自编写规划文档的 `ejs.entries` 段，在条目创作时一并处理。

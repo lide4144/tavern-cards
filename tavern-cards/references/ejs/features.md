@@ -683,7 +683,7 @@ This is the World Book entry content...
 - `@@private`: Inserts `<% { %>` and `<% } %>` at the beginning and end of the entry content to avoid `Identifier ... has already been declared` errors.
 - `@@if`: Check a condition. If the result is `false`, exclude this entry.
 - `@@iframe`: Wrap `@@render_before` or `@@render_after` content in an `<iframe>` tag to avoid style pollution in the global scope.
-- `@@preprocessing`: Processed by this extension before the Tavern handles the World Book. (Superseded by `@@generate_before` for EJS预处理 entries in this project.)
+- `@@preprocessing`: Processed by this extension before the Tavern handles the World Book.
 
 General usage:
 

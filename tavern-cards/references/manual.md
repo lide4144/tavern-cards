@@ -61,7 +61,7 @@
     }
   },
   "default_type_lists": {
-    "before_char": ["EJS预处理", "世界观", "扮演准则", "时间线", "地理"],
+    "before_char": ["世界观", "扮演准则", "时间线", "地理"],
     "after_char": ["角色", "NPC"],
     "depth": ["事件", "MVU"]
   },
@@ -70,8 +70,7 @@
       "basic": { "threshold": 5, "required": true },
       "personality": { "threshold": 2, "required": true }
     },
-    "NPC": 0,
-    "EJS预处理": "Infinity"
+    "NPC": 0
   },
   "default_part_order": {
     "角色": ["basic", "personality", "tri_faceted", "other"],
@@ -100,7 +99,7 @@
   "form": "charactercard",
   "mvu": false,
   "typeLists": {
-    "before_char": ["EJS预处理", "世界观"],
+    "before_char": ["世界观"],
     "after_char": ["角色", "NPC"],
     "depth": ["扮演准则", "事件", "MVU"]
   },

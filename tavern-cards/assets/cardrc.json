@@ -76,7 +76,6 @@
             }
         },
         "NPC": 0,
-        "EJS预处理": "Infinity",
         "扮演准则": "Infinity",
         "时间线": {
             "history": {
@@ -92,7 +91,6 @@
     },
     "default_type_lists": {
         "before_char": [
-            "EJS预处理",
             "世界观",
             "扮演准则",
             "时间线",

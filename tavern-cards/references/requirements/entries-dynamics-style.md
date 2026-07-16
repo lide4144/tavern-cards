@@ -10,8 +10,8 @@
 2. 标注 EJS 需求（使用 EJS 时）：
    - 逐条目判定 complexity（条目显隐 / 段落控制 / 动态文本），判定标准和语法详见 `references/ejs/guide.md`
    - 根据要求判断 condition（条件表达式概念，如"当前地点位于华东区时激活"）
-   - 一次确认模式：进一步推导 EJS预处理 变量映射
-   - 粗略规划模式：EJS预处理 留空，创作阶段推导
+   - 一次确认模式：进一步推导 condition 中的 stat_data 变量路径
+   - 粗略规划模式：condition 暂写概念，创作阶段补全 getvar stat_data 路径
 3. EJS 信息写入 ejs 段
 
 **entries 是项目级事实来源**，数组顺序即默认创作顺序。
